@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMarker.Tests.Unit", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMarker.Tests.Integration", "BenchMarker.Tests.Integration\BenchMarker.Tests.Integration.csproj", "{E3ABE7E6-646B-4A09-AC64-F4EBBEA9CCC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMarker.Runner", "BenchMarker.Runner\BenchMarker.Runner.csproj", "{0C680EBE-2D09-4901-B95A-7C98869321E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMarker.Runner.Abstraction", "BenchMarker.Runner.Abstraction\BenchMarker.Runner.Abstraction.csproj", "{0C680EBE-2D09-4901-B95A-7C98869321E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMarker.Runner.Docker", "BenchMarker.Runner.Docker\BenchMarker.Runner.Docker.csproj", "{DA06F8D3-164C-4F27-91BA-80C969BD083C}"
 EndProject

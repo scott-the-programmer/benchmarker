@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using BenchMarker.Application.Commands;
+using BenchMarker.Application.Events;
 using BenchMarker.Application.Models;
 using Serilog;
 
@@ -16,7 +17,11 @@ namespace BenchMarker.Application.CommandHandlers
 
         public Task<CommandResult> HandleAsync(RunDockerCommand command)
         {
-            _logger.Information("Running RunDockerCommand");
+            var @event = new DockerBuildEvent()
+            {
+                Dockerfile = command.DockerFile
+            };
+            
             return Task.FromResult(new CommandResult());
         }
     }

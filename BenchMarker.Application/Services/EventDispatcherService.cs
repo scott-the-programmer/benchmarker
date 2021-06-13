@@ -2,11 +2,13 @@ using System;
 using Autofac;
 using BenchMarker.Application.CommandHandlers;
 using BenchMarker.Application.Commands;
+using BenchMarker.Application.EventHandlers;
+using BenchMarker.Application.Events;
 using Serilog;
 
 namespace BenchMarker.Application.Services
 {
-    public class CommandDispatcherService : ICommandDispatcherService
+    public class EventDispatcherService : IEventDispatcherService
     {
         private readonly ILogger _logger;
         private readonly IComponentContext _componentContext;
@@ -23,22 +25,22 @@ namespace BenchMarker.Application.Services
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="componentContext"></param>
-        public CommandDispatcherService(ILogger logger,
+        public EventDispatcherService(ILogger logger,
             IComponentContext componentContext)
         {
             _logger = logger;
             _componentContext = componentContext;
         }
 
-        public async void DispatchCommand<T>(T command) where T : ICommand 
+        public async void DispatchEvent<T>(T @event) where T : IEvent 
         {
-            var handler = _componentContext.Resolve<ICommandHandler<T>>();
+            var handler = _componentContext.Resolve<IEventHandler<T>>();
             var handlerType = handler.GetType();
             try
             {
                 _logger.Information($"Running {handlerType}");
-                var result = await handler.HandleAsync(command);
-                _logger.Information($"Success: {result.Success}");
+                await handler.ApplyAsync(@event);
+                _logger.Information($"Event handler completed");
             }
             catch (Exception e)
             {

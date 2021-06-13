@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
+using BenchMarker.Application.Commands;
 using BenchMarker.Application.Models;
-using BenchMarker.CLI.Commands;
 
 namespace BenchMarker.Application.CommandHandlers
 {

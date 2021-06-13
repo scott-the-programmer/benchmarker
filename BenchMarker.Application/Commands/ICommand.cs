@@ -1,4 +1,4 @@
-namespace BenchMarker.CLI.Commands
+namespace BenchMarker.Application.Commands
 {
     public interface ICommand
     {

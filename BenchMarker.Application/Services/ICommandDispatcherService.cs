@@ -1,4 +1,4 @@
-using BenchMarker.CLI.Commands;
+using BenchMarker.Application.Commands;
 
 namespace BenchMarker.Application.Services
 {

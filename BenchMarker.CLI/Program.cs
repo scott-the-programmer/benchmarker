@@ -1,18 +1,13 @@
 ﻿using System;
-using System.CommandLine.Invocation;
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using AutofacSerilogIntegration;
 using BenchMarker.Application.CommandHandlers;
 using BenchMarker.Application.Commands;
 using BenchMarker.Application.Services;
-using BenchMarker.CLI.Commands;
+using BenchMarker.CLI.Configure;
 using BenchMarker.CLI.Exceptions;
 using CommandLine;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
 
 namespace BenchMarker.CLI
 {
@@ -37,22 +32,11 @@ namespace BenchMarker.CLI
             var builder = new ContainerBuilder();
             var commandHandlerAssembly = Assembly.Load(CommandAssembly);
 
-            ConfigureLogger(builder);
+            builder.ConfigureLogger();
             builder.RegisterType<CommandDispatcherService>().As<ICommandDispatcherService>();
             builder.RegisterAssemblyTypes(commandHandlerAssembly)
                 .AsClosedTypesOf(typeof(ICommandHandler<>));
             _container = builder.Build();
-        }
-
-        private static void ConfigureLogger(ContainerBuilder builder)
-        {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.ColoredConsole(
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message} ({SourceContext:l}){NewLine}{Exception}")
-                .CreateLogger();
-
-            builder.RegisterLogger(autowireProperties: true);
-            builder.RegisterLogger(Log.Logger);
         }
 
         private static Type[] LoadRunCommands()
@@ -85,8 +69,6 @@ namespace BenchMarker.CLI
                 default:
                     throw new BenchMarkerCommandLineArgException($"invalid command type {command.GetType()}");
             }
-
-            ;
         }
     }
 }

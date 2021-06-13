@@ -1,4 +1,3 @@
-using BenchMarker.CLI.Commands;
 using CommandLine;
 
 namespace BenchMarker.Application.Commands
