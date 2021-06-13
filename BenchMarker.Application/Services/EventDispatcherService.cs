@@ -44,7 +44,7 @@ namespace BenchMarker.Application.Services
             }
             catch (Exception e)
             {
-                _logger.Error("encountered handler-leve exception", e);
+                _logger.Error("encountered event-level exception", e);
             }
         }
     }
