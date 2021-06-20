@@ -3,10 +3,8 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using BenchMarker.Application.CommandHandlers;
-using BenchMarker.Application.Commands;
 using BenchMarker.Application.Services;
 using BenchMarker.CLI.Configure;
-using BenchMarker.CLI.Exceptions;
 using CommandLine;
 
 namespace BenchMarker.CLI
@@ -35,7 +33,9 @@ namespace BenchMarker.CLI
             builder.ConfigureLogger();
             builder.RegisterType<CommandDispatcherService>().As<ICommandDispatcherService>();
             builder.RegisterAssemblyTypes(commandHandlerAssembly)
-                .AsClosedTypesOf(typeof(ICommandHandler<>));
+                .AsClosedTypesOf(typeof(CommandHandler<>));
+            builder.RegisterAssemblyTypes(commandHandlerAssembly)
+                .As(typeof(ICommandHandler));
             _container = builder.Build();
         }
 
@@ -55,20 +55,8 @@ namespace BenchMarker.CLI
 
         private static void Run(object command)
         {
-            
-            switch (command)
-            {
-                case RunDockerCommand runDockerCommand:
-                    _container.Resolve<ICommandDispatcherService>()
-                        .DispatchCommand(runDockerCommand);
-                    break;
-                case RunKubernetesCommand runKubernetesCommand: 
-                    _container.Resolve<ICommandDispatcherService>()
-                        .DispatchCommand(runKubernetesCommand);
-                    break;
-                default:
-                    throw new BenchMarkerCommandLineArgException($"invalid command type {command.GetType()}");
-            }
+            var dispatcherService = _container.Resolve<ICommandDispatcherService>();
+            dispatcherService.DispatchCommand(command);
         }
     }
 }

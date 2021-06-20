@@ -4,8 +4,18 @@ using BenchMarker.Application.Models;
 
 namespace BenchMarker.Application.CommandHandlers
 {
-    public interface ICommandHandler<T> where T : ICommand
+    public interface ICommandHandler
     {
-        Task<CommandResult> HandleAsync(T command);
+        Task<CommandResult> HandleAsync(object command);
+    }
+
+    public abstract class CommandHandler<T> : ICommandHandler where T : ICommand
+    {
+        protected abstract Task<CommandResult> HandleAsync(T command);
+
+        public Task<CommandResult> HandleAsync(object command)
+        {
+            return HandleAsync((T) command);
+        }
     }
 }

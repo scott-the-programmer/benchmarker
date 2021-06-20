@@ -6,7 +6,7 @@ using Serilog;
 
 namespace BenchMarker.Application.CommandHandlers
 {
-    public class DockerRunCommandHandler : ICommandHandler<RunDockerCommand>
+    public class DockerRunCommandHandler : CommandHandler<RunDockerCommand>
     {
         private ILogger _logger;
 
@@ -15,7 +15,7 @@ namespace BenchMarker.Application.CommandHandlers
             _logger = logger;
         }
 
-        public Task<CommandResult> HandleAsync(RunDockerCommand command)
+        protected override Task<CommandResult> HandleAsync(RunDockerCommand command)
         {
             var @event = new DockerBuildEvent()
             {

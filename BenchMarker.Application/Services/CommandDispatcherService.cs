@@ -1,7 +1,6 @@
 using System;
 using Autofac;
-using BenchMarker.Application.CommandHandlers;
-using BenchMarker.Application.Commands;
+using BenchMarker.Application.Extensions;
 using Serilog;
 
 namespace BenchMarker.Application.Services
@@ -30,14 +29,14 @@ namespace BenchMarker.Application.Services
             _componentContext = componentContext;
         }
 
-        public async void DispatchCommand<T>(T command) where T : ICommand 
+        public async void DispatchCommand(object command)
         {
-            var handler = _componentContext.Resolve<ICommandHandler<T>>();
-            var handlerType = handler.GetType();
+            var handler = _componentContext.GetCommandHandlerFor(command);
+            
             try
             {
-                _logger.Information($"Running {handlerType}");
-                var result = await handler.HandleAsync(command);
+                _logger.Information($"Running command {command.GetType()}");
+                var result = await  handler.HandleAsync(command);
                 _logger.Information($"Success: {result.Success}");
             }
             catch (Exception e)
