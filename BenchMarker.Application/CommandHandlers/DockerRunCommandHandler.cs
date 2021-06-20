@@ -19,7 +19,9 @@ namespace BenchMarker.Application.CommandHandlers
         {
             var @event = new DockerBuildEvent()
             {
-                Dockerfile = command.DockerFile
+                Dockerfile = command.DockerFile,
+                Cpu = command.Cpu,
+                Memory = command.Memory
             };
             
             return Task.FromResult(new CommandResult());
